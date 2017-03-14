@@ -51,7 +51,8 @@ Article.fetchAll = function() {
     // we can load it with the .loadAll function above,
     // and then render the index page (using the proper method on the articleView object).
     var storedArray = localStorage.getItem('stored_files');
-    Article.loadAll(storedArray);
+    var jsonArray = JSON.parse(storedArray);
+    Article.loadAll(jsonArray);
     articleView.initIndexPage();
     //DONE TODO: What do we pass in to loadAll()?
     //DONE TODO: What method do we call to render the index page?
@@ -62,10 +63,11 @@ Article.fetchAll = function() {
     // then load all the data into Article.all with the .loadAll function above,
     // and then render the index page.
     $.ajax({
-      url:'data/hackerIpsum.json',
+      url:'/data/hackerIpsum.json',
       method: 'GET',
       success: function(rawData){
-        localStorage.setItem('stored_files',rawData);
+        var stringData = JSON.stringify(rawData);
+        localStorage.setItem('stored_files', stringData);
         Article.loadAll(rawData);
         articleView.initIndexPage();
       }
